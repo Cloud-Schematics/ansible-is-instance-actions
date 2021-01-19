@@ -77,6 +77,25 @@ To Start/Stop/Reboot VSI instance(To change action just change the playbook name
   
   Pass header: Authorization: {bearer token}
 
+## Execute the playbook using Schematics UI
+
+Steps:
+
+- Login to cloud.ibm.com
+- From top left open the Navigation menu
+- Tap Schematics
+- Again in left side navigation menu, tap on Actions
+- Click on Create action button(right side of screen)
+- Give action name, resource-group, location and hit create button
+- In github url box pass: https://github.com/Cloud-Schematics/ic-vsi-actions
+- Hit retrieve playbooks button
+- Selete start/stop/reboot playbook from Playbooks dropdown
+- Click advanced options
+- Add instance_ip as key and ip address of VSI in value
+- Tap next button
+- Once the action come in normal state, Hit run action button.
+- You can check job logs in Jobs page
+
 Help:
 
 VSI instance UI: https://cloud.ibm.com/vpc-ext/compute/vs
