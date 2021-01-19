@@ -1,0 +1,11 @@
+---
+  
+  - name: Reboot the vsi instance
+    ibm_is_instance_action:
+      instance_id: "{{ instance_id | default('') }}"
+      instance_ip: "{{ instance_ip | default('') }}"
+      ibmcloud_api_key: "{{ ibmcloud_api_key | default('') }}"
+      bearer_token: "{{ bearer_token | default('') }}"
+      env_bearer_token: "{{ lookup('env','IC_IAM_TOKEN') }}"
+      action_type: 'reboot'
+    

@@ -1,0 +1,7 @@
+---
+
+  - name: Create VPC test.
+    hosts: localhost
+    roles: 
+      - start
+    
