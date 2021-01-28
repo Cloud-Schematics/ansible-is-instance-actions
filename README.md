@@ -1,60 +1,64 @@
-# VSI-start/stop/reboot
+# IBM Cloud Virtual Servers for VPC
 
-Ansible playbook to start, stop and reboot a VSI on IBM Cloud. This playbook demos how IBM Cloud VSI API can be be used to start, stop and reboot via ansible.
+Ansible playbook for [IBM Cloud Virtual Servers on VPC](https://cloud.ibm.com/docs/vpc?topic=vpc-about-advanced-virtual-servers) to perform the following operations:
+* Start VM
+* Stop VM
+* Reboot VM
+
+You can create a Schematics Action, using these playbooks; and allow your team members to perform these Actions in a controller manner.  
+Follow the instruction to onboard these Ansible playbooks as Schematics Action, and run them as Schematics Jobs. 
 
 ## Prerequisite:
-- A VSI instance in running/stopped state.
-- VSI instance-id or instance-ip
-- IAM token with access to the instance(optional if running this action from same account as of VSI).
+- A Virtual Server instance (VSI) in your IBM Cloud account
 
-## Automate the playbook execution with schematics action 
+## Inputs:
+- Instance ID or IP Address of the VSI
+- IAM token, with access to the VSI (optional, if the VSI is in running in the same account as Schematics Action).
 
-Create schematics action to run Ansible playbook in IBM Cloud. In the example we will use schematics actions API to illustrate the execution of playbook.
+## Automate the playbook execution with Schematics Action APIs
 
-To Start/Stop/Reboot VSI instance(To change action just change the playbook name({start/stop/reboot}-vsi-playbook.yml)):
+In this example, we will use the Schematics Actions API to create a new `Start VSI` Action, using the `start-vsi-playbook.yml` playbook.  Further, use the Schematics Job API to run the newly created `Start VSI` action.
+
+- Create a Schematics Action: "Start-VSI"
+
+  Use the `POST {url}/v2/actions` with the following payload:
  
-- Create a Schematics action:
-
- Make POST request {url}/v2/actions using following payload:
+  Url: https://schematics.cloud.ibm.com
  
- Url: https://schematics.cloud.ibm.com
- 
- Pass header: Authorization: {bearer token}
+  Pass header: Authorization: {bearer token}
  
   ```
   {
-      "name": "Start-Stop-VSI",
-      "description": "This Action can be used to Start or Stop the VSI",
+      "name": "Start-VSI",
+      "description": "This Action can be used to Start the VSI",
       "location": "us-east",
       "resource_group": "Default",
        "source": {
            "source_type" : "git",
            "git" : {
-                "git_repo_url": "https://github.ibm.com/akjain25/ic-vsi-actions"
+                "git_repo_url": "https://github.com/Cloud-Schematics/ansible-is-instance-actions"
            }
       },
-      "command_parameter": "stop-vsi-playbook.yml",
+      "command_parameter": "start-vsi-playbook.yml",
       "tags": [
         "string"
       ],
-      "source_readme_url": "stringtype",
+      "source_readme_url": "https://github.com/Cloud-Schematics/ansible-is-instance-actions/blob/master/README.md",
       "source_type": "GitHub",
       "inputs": [
         {
           "name": "instance_ip",
-          "value": <pass your vsi ip here>,
-          "metadata": {
-            "type": "string",
-            "default_value": <any default value>
-          }
+          "value": "<your vsi ip here>",
         }
       ]
   }
   ```
+  In the request payload, pass the IP address of the VSI that must be started as a value in the "inputs".  
+  The response payload will include the Action ID for the newly created Schematics Action definition.
 
-- Create a job that will run the playbook:
+- Create & run the Schematics Job for "Start-VSI"
 
-  Make POST request to {url}/v2/jobs using following payload:
+  Use the `POST {url}/v2/jobs` with the following payload:
   
   Url: https://schematics.cloud.ibm.com
   
@@ -63,39 +67,38 @@ To Start/Stop/Reboot VSI instance(To change action just change the playbook name
     ```
     {
       "command_object": "action",
-      "command_object_id": {action-id from the response of above request},
+      "command_object_id": "<action-id for Start-VSI>",
       "command_name": "ansible_playbook_run",
-      "command_parameter": "stop-vsi-playbook.yml"
+      "command_parameter": "start-vsi-playbook.yml"
     }
     ```
 
-- Check the progress by getting ansible logs:
+- Check the Schematics Job status and the ansible logs:
 
-  Make GET request to {url}/v2/jobs/{job-id}/logs.
- 
-  Url: https://schematics.cloud.ibm.com
-  
-  Pass header: Authorization: {bearer token}
+  Use the `GET {url}/v2/jobs/{job-id}/logs`.  
+  With the header - Authorization: {bearer token}
 
 ## Execute the playbook using Schematics UI
 
 Steps:
 
-- Login to cloud.ibm.com
-- From top left open the Navigation menu
-- Tap Schematics
-- Again in left side navigation menu, tap on Actions
-- Click on Create action button(right side of screen)
-- Give action name, resource-group, location and hit create button
-- In github url box pass: https://github.com/Cloud-Schematics/ic-vsi-actions
-- Hit retrieve playbooks button
-- Selete start/stop/reboot playbook from Playbooks dropdown
-- Click advanced options
-- Add instance_ip as key and ip address of VSI in value
-- Tap next button
-- Once the action come in normal state, Hit run action button.
-- You can check job logs in Jobs page
+- Open https://cloud.ibm.com/schematics/actions to view the list of Schematics Actions.
+- Click `Create action` button to create a new Schematics Action definition
+- In the Create action page - section 1, provide the following inputs, to create a `Start-VSI` action in `Draft` state.
+  * Action name : Start-VSI
+  * Resource group: default
+  * Location : us-east
+- In the Create action page - section 2, provide the following input
+  * Github url : https://github.com/Cloud-Schematics/ansible-is-instance-actions
+  * Click on `Retrieve playbooks` button
+  * Select `start-vsi-playbook.yml` from the dropdown
+- In the Create action page - Advanced options, provide the following input
+  * Add `instance_ip` as key and `<ip address of VSI>` as value
+- Press the `Next` button, and wait for the newly created `Start-VSI` action to move to `Normal` state.
+- Once the `Start-VSI` action is in `Normal` state, you can run press the `Run action` button to initiate the Schematics Job
+  * You can view the job status and the job logs (or Ansible logs) in the Jobs page of the `Start-VSI` Schematics Action
+  * Jobs page of the `Start-VSI` Schematics Action will list all the historical jobs that was executed using this Action definition
 
-Help:
+## Reference:
 
 VSI instance UI: https://cloud.ibm.com/vpc-ext/compute/vs
