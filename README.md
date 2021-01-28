@@ -15,9 +15,10 @@ Follow the instruction to onboard these Ansible playbooks as Schematics Action, 
 - Instance ID or IP Address of the VSI
 - IAM token, with access to the VSI (optional, if the VSI is in running in the same account as Schematics Action).
 
-## Automate the playbook execution with Schematics Action APIs
+## Execute the ansible playbook using Schematics API
 
-In this example, we will use the Schematics Actions API to create a new `Start VSI` Action, using the `start-vsi-playbook.yml` playbook.  Further, use the Schematics Job API to run the newly created `Start VSI` action.
+In this example, we will use the Schematics Actions API to create a new `Start VSI` Action, using the `start-vsi-playbook.yml` playbook.  
+Further, use the Schematics Job API to run the newly created `Start VSI` action.
 
 - Create a Schematics Action: "Start-VSI"
 
@@ -78,7 +79,10 @@ In this example, we will use the Schematics Actions API to create a new `Start V
   Use the `GET {url}/v2/jobs/{job-id}/logs`.  
   With the header - Authorization: {bearer token}
 
-## Execute the playbook using Schematics UI
+## Execute the ansible playbook using Schematics UI
+
+In this example, we will use the Schematics Actions UI to create a new `Start VSI` Action, using the `start-vsi-playbook.yml` playbook.  
+Further, use the Schematics Job API to run the newly created `Start VSI` action.
 
 Steps:
 
