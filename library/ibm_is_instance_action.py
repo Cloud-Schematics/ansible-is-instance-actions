@@ -60,11 +60,12 @@ def run_module():
 
     # authenticate using api-key
     if module.params["ibmcloud_api_key"]:
-        authenticator = IAMAuthenticator(module.params["ibmcloud_api_key"])
+        authenticator = IAMAuthenticator(module.params["ibmcloud_api_key"], url="https://iam.test.cloud.ibm.com/identity/token")
     elif module.params["bearer_token"]:
         authenticator = BearerTokenAuthenticator(module.params["bearer_token"])
     else:
         authenticator = BearerTokenAuthenticator(module.params["env_bearer_token"])
+    authenticator.set_proxies
 
     service = VpcV1('2020-06-02', authenticator=authenticator)
 
