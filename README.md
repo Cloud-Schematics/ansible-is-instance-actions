@@ -64,11 +64,11 @@ You must retrieve the following values to run the playbook in IBM Cloud Schemati
 
    Example output:
    ```
-   ID                  us-south.JOB.lamp.fedd2fab
+   ID                  us-south.JOB.stopvsi.fedd2fab
    Command Object      action
-   Command Object ID   us-south.ACTION.lamp.1aa11a1a
+   Command Object ID   us-south.ACTION.stopvsi.1aa11a1a
    Command Name        ansible_playbook_check
-   Name                JOB.lamp.ansible_playbook_check.2
+   Name                JOB.stopvsi.ansible_playbook_check.2
    Resource Group      a1a12aaad12b123bbd1d12ab1a123ca1
    ```
 
