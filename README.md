@@ -36,19 +36,26 @@ You must retrieve the following values to run the playbook in IBM Cloud Schemati
 
 ## Running the playbook in Schematics by using the UI
 
-1. Open the [Schematics action configuration page](https://cloud.ibm.com/schematics/actions/create?name=ansible-is-instance-actions&url=https://github.com/Cloud-Schematics/ansible-is-instance-actions).
-2. Review the name for your action, and the resource group and region where you want to create the action. Then, click **Create**.
-3. Select the playbook that you want to use.
-4. Select the **Verbosity** level to control the depth of information that will be shown when you run the playbook in Schematics.
-5. Expand the **Advanced options**.
-6. Enter all required input variables as key-value pairs. Then, click **Save**.
+1. From the [Schematics action configuration page](https://cloud.ibm.com/schematics/actions/create?name=ansible-is-instance-actions&url=https://github.com/Cloud-Schematics/ansible-is-instance-actions).
+2. Enter a name for your action, for example, `Start_VSIaction`, resource group, and the region where you want to create the action. Then, click **Create** to view the **Details** section.
+3. In the **Ansible playbook** section, click **Edit icon** enter `https://github.com/Cloud-Schematics/ansible-is-instance-actions` in the **GitHub or GitLab repository URL** field.
+4. Click **Retrieve playbooks**.
+5. Select the **`start-vsi-playbook.yaml`** playbook. Refer to [floating IP address](https://cloud.ibm.com/docs/vpc?topic=vpc-using-instance-vnics#editing-network-interfaces) of the VSI to set your input variable.
+6. Expand the **Advanced options**.
+7. In the **Define your variables** section, enter `instance_ip` as the **key** and the floating IP address of your Virtual Servers for VPC as the **value**.
 
-   <img src="/images/action_input_parameters.png" alt="Schematics action input variables overview" width="350" style="width: 350px; border-style: none"/>
-   
-7. Click **Check action** to verify your action details. The **Jobs** page opens automatically. You can view the results of this check by looking at the logs.
-8. Click **Run action** to perform the operation on your virtual server. You can monitor the progress of this action by reviewing the logs on the **Jobs** page.
+   <img src="/images/startvsiui.png" alt="Schematics action input variables overview" width="350" style="width: 350px; border-style: none"/>
 
-   ![Schematics action output](/images/action_output.png)
+8. Click **Save**.
+9. Click **Check action** to verify your action details. The **Jobs** page opens automatically and you can view the results of this check by looking at the logs.
+10. Click **Run action** to start the Virtual Servers for VPC. You can monitor the progress of this action by reviewing the logs on the **Jobs** page.
+11. Verify that your Virtual Servers for VPC started.
+    1. From the [Virtual Servers for VPC dashboard](https://cloud.ibm.com/vpc-ext/compute/vs), find your Virtual Servers for VPC.
+    2. Verify that your instance shows a `Started` status.
+
+    ![Schematics action output](/images/action_output.png)
+    
+12. Optional: Repeat the steps to create another Schematics action, and select the **`stop-vsi-playbook.yaml`** Ansible playbook to stop your Virtual Servers for VPC. again.
 
 ## Running the playbook in Schematics by using the command line
 
@@ -101,7 +108,7 @@ You must retrieve the following values to run the playbook in IBM Cloud Schemati
 
 ## Deleting the action
 
-1. From the [Schematics actions dashboard](https://cloud.ibm.com/schematics/actions){: external}, find the action that you want to delete.
+1. From the [Schematics actions dashboard](https://cloud.ibm.com/schematics/actions), find the action that you want to delete.
 2. From the actions menu, click **Delete**.
 
 ## Reference
