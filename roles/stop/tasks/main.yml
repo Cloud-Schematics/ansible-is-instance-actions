@@ -4,6 +4,7 @@
     ibm_is_instance_action:
       instance_id: "{{ instance_id | default('') }}"
       instance_ip: "{{ instance_ip | default('') }}"
+      instance_ip_list: "{{ instance_ip_list | default('[]')}}"
       ibmcloud_api_key: "{{ ibmcloud_api_key | default('') }}"
       bearer_token: "{{ bearer_token | default('') }}"
       env_bearer_token: "{{ lookup('env','IC_IAM_TOKEN') }}"

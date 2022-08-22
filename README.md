@@ -33,6 +33,7 @@ You must retrieve the following values to run the playbook in IBM Cloud Schemati
 |--|--|--|--|
 |`instance_id`|Required if `instance_ip` is not provided|String|Enter the ID of the Virtual Server instance that you want to start, stop, or reboot. You can retrieve the ID from the [VPC Gen 2 Virtual Server dashboard](https://cloud.ibm.com/vpc-ext/compute/vs).|
 |`instance_ip`|Required if `instance_id` is not provided|String|Enter the public or private IP address that was assigned to the Virtual Server instance that you want to start, stop, or reboot. You can retrieve the IP address from the [VPC Gen 2 Virtual Server dashboard](https://cloud.ibm.com/vpc-ext/compute/vs). |
+|`instance_ip_list`|Optional `instance_ip` and `instance_ip` fields are not required if this field is provided|List|Enter a list of public or private IP addresses separated by comma that you want to start, stop, or reboot. E.g 10.240.64.4,10.240.64.5|
 
 ## Running the playbook in Schematics by using the UI
 
